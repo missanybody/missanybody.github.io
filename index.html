@@ -14,26 +14,27 @@
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
     >
-      <!-- Recursos -->
+      <!-- Recursos locales -->
       <a-assets>
-        <video id="recuerdoVideo" src="imagenes/pvideo.mp4" autoplay loop muted playsinline></video>
         <img id="recuerdoImg" src="imagenes/vaca.jpeg" />
+        <video id="recuerdoVideo" src="imagenes/pvideo.mp4" autoplay loop muted playsinline></video>
+        
       </a-assets>
 
       <!-- Cámara -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Primer marcador: muestra el video -->
+      <!-- Primer marcador: video local -->
       <a-entity mindar-image-target="targetIndex: 0">
         <a-video src="#recuerdoVideo" position="0 0 0" scale="1 1 1"></a-video>
       </a-entity>
 
-      <!-- Segundo marcador: muestra la imagen -->
+      <!-- Segundo marcador: imagen -->
       <a-entity mindar-image-target="targetIndex: 1">
         <a-image src="#recuerdoImg" position="0 0 0" scale="1 1 1"></a-image>
       </a-entity>
 
-      <!-- Tercer marcador: abre la página de YouTube -->
+      <!-- Tercer marcador: abre YouTube -->
       <a-entity mindar-image-target="targetIndex: 2" id="marcadorYoutube"></a-entity>
     </a-scene>
 
