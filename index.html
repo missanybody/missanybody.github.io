@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Librerías necesarias -->
+
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
+
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+
+  </head>
+
+  <body>
+
+    <a-scene mindar-image="imageTargetSrc: imagenes/marcavaca.mind; maxTrack: 1"
+
+      color-space="sRGB"
+
+      renderer="colorManagement: true, physicallyCorrectLights"
+
+      vr-mode-ui="enabled: false"
+
+      device-orientation-permission-ui="enabled: false"
+
+    >
+
+      <a-assets>
+
+        <!-- Aquí cargas tu imagen o video -->
+
+        <img id="recuerdoImg" src="imagenes/vaca.jpeg" />
+
+        <video id="recuerdoVideo" src="assets/video.mp4" autoplay loop muted playsinline></video>
+
+      </a-assets>
+
+
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+
+
+      <!-- Mostrar imagen cuando se detecte el marcador -->
+
+      <a-entity mindar-image-target="targetIndex: 0">
+
+        <a-image src="#recuerdoImg" position="0 0 0" scale="1 1 1"></a-image>
+
+      </a-entity>
+
+
+
+      <!-- O mostrar video -->
+
+      <a-entity mindar-image-target="targetIndex: 0">
+
+        <a-video src="#recuerdoVideo" position="0 0 0" scale="1 1 1"></a-video>
+
+      </a-entity>
+
+    </a-scene>
+
+  </body>
+
+</html>
