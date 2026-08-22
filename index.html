@@ -8,8 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <!-- Escena principal con dos marcadores -->
-    <a-scene mindar-image="imageTargetSrc: imagenes/marcadores.mind; maxTrack: 2"
+    <a-scene mindar-image="imageTargetSrc: imagenes/marcadores.mind; maxTrack: 3"
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -24,15 +23,25 @@
       <!-- Cámara -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Primer marcador (índice 0): muestra el video -->
+      <!-- Primer marcador: muestra el video -->
       <a-entity mindar-image-target="targetIndex: 0">
         <a-video src="#recuerdoVideo" position="0 0 0" scale="1 1 1"></a-video>
       </a-entity>
 
-      <!-- Segundo marcador (índice 1): muestra la imagen -->
+      <!-- Segundo marcador: muestra la imagen -->
       <a-entity mindar-image-target="targetIndex: 1">
         <a-image src="#recuerdoImg" position="0 0 0" scale="1 1 1"></a-image>
       </a-entity>
+
+      <!-- Tercer marcador: abre la página web -->
+      <a-entity mindar-image-target="targetIndex: 2" id="marcadorYoutube"></a-entity>
     </a-scene>
+
+    <script>
+      // Cuando se detecta el tercer marcador, redirige a YouTube
+      document.querySelector("#marcadorYoutube").addEventListener("targetFound", () => {
+        window.location.href = "https://www.youtube.com/watch?v=hvi3J3yBRXI";
+      });
+    </script>
   </body>
 </html>
