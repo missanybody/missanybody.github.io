@@ -18,7 +18,7 @@
 
   <body>
 
-    <a-scene mindar-image="imageTargetSrc: imagenes/marcador.mind; maxTrack: 1"
+    <a-scene mindar-image="imageTargetSrc: imagenes/marcador.mind; maxTrack: 2"
 
       color-space="sRGB"
 
@@ -37,7 +37,7 @@
  
         <video id="recuerdoVideo" src="imagenes/pvideo.mp4" autoplay loop muted playsinline></video>
 
-
+ <img id="recuerdoImg" src="imagenes/vaca.jpeg" />
         
 
       </a-assets>
@@ -55,7 +55,10 @@
       </a-entity>
 
 
-
+      <!-- Segundo marcador (marcavaca.mind): muestra la imagen -->
+      <a-entity mindar-image-target="targetIndex: 1">
+        <a-image src="#recuerdoImg" position="0 0 0" scale="1 1 1"></a-image>
+      </a-entity>
 
 
 
