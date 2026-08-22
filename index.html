@@ -17,15 +17,15 @@
       <!-- Recursos locales -->
       <a-assets>
         <img id="recuerdoImg" src="imagenes/vaca.jpeg" />
-        <video id="recuerdoVideo" src="imagenes/pvideo.mp4" autoplay loop muted playsinline></video>
-        
+        <!-- Video SIN autoplay ni muted -->
+        <video id="recuerdoVideo" src="imagenes/pvideo.mp4" playsinline></video>
       </a-assets>
 
       <!-- Cámara -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <!-- Primer marcador: video local -->
-      <a-entity mindar-image-target="targetIndex: 0">
+      <a-entity mindar-image-target="targetIndex: 0" id="marcadorVideo">
         <a-video src="#recuerdoVideo" position="0 0 0" scale="1 1 1"></a-video>
       </a-entity>
 
@@ -39,6 +39,15 @@
     </a-scene>
 
     <script>
+      // Video con audio: se reproduce al tocar la pantalla cuando el marcador aparece
+      const video = document.querySelector("#recuerdoVideo");
+      document.querySelector("#marcadorVideo").addEventListener("targetFound", () => {
+        // Espera interacción del usuario
+        document.body.addEventListener("click", () => {
+          video.play();
+        }, { once: true });
+      });
+
       // Cuando se detecta el tercer marcador, redirige a YouTube
       document.querySelector("#marcadorYoutube").addEventListener("targetFound", () => {
         window.location.href = "https://www.youtube.com/watch?v=hvi3J3yBRXI";
