@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: imagenes/marcado.mind; maxTrack: 3"
+    <a-scene mindar-image="imageTargetSrc: imagenes/marcadores_finales.mind; maxTrack: 4"
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -16,41 +16,59 @@
     >
       <!-- Recursos locales -->
       <a-assets>
-        <img id="recuerdoImg" src="imagenes/vaca.jpeg" />
-        <!-- Video SIN autoplay ni muted -->
-        <video id="recuerdoVideo" src="imagenes/pvideo.mp4" playsinline></video>
+        <img id="fotoVaca" src="imagenes/foto_vaca.jpeg" />
+        <video id="videoMar" src="imagenes/mar.mp4" playsinline></video>
+        <video id="videoConcierto" src="imagenes/concierto.mp4" playsinline></video>
+        <audio id="audioRecuerdo" src="imagenes/audio.mp3" preload="auto"></audio>
       </a-assets>
 
       <!-- Cámara -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Primer marcador: video local -->
-      <a-entity mindar-image-target="targetIndex: 0" id="marcadorVideo">
-        <a-video src="#recuerdoVideo" position="0 0 0" scale="1 1 1"></a-video>
+      <!-- Primer marcador: imagen -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-image src="#fotoVaca" position="0 0 0" scale="1 1 1"></a-image>
       </a-entity>
 
-      <!-- Segundo marcador: imagen -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <a-image src="#recuerdoImg" position="0 0 0" scale="1 1 1"></a-image>
+      <!-- Segundo marcador: video mar -->
+      <a-entity mindar-image-target="targetIndex: 1" id="marcadorMar">
+        <a-video src="#videoMar" position="0 0 0" scale="1 1 1"></a-video>
       </a-entity>
 
-      <!-- Tercer marcador: abre YouTube -->
-      <a-entity mindar-image-target="targetIndex: 2" id="marcadorYoutube"></a-entity>
+      <!-- Tercer marcador: video concierto -->
+      <a-entity mindar-image-target="targetIndex: 2" id="marcadorConcierto">
+        <a-video src="#videoConcierto" position="0 0 0" scale="1 1 1"></a-video>
+      </a-entity>
+
+      <!-- Cuarto marcador: audio -->
+      <a-entity mindar-image-target="targetIndex: 3" id="marcadorAudio"></a-entity>
     </a-scene>
 
     <script>
-      // Video con audio: se reproduce al tocar la pantalla cuando el marcador aparece
-      const video = document.querySelector("#recuerdoVideo");
-      document.querySelector("#marcadorVideo").addEventListener("targetFound", () => {
-        // Espera interacción del usuario
+      // Reproducir video "mar" con interacción
+      const videoMar = document.querySelector("#videoMar");
+      document.querySelector("#marcadorMar").addEventListener("targetFound", () => {
         document.body.addEventListener("click", () => {
-          video.play();
+          videoMar.play();
         }, { once: true });
       });
 
-      // Cuando se detecta el tercer marcador, redirige a YouTube
-      document.querySelector("#marcadorYoutube").addEventListener("targetFound", () => {
-        window.location.href = "https://www.youtube.com/watch?v=hvi3J3yBRXI";
+      // Reproducir video "concierto" con interacción
+      const videoConcierto = document.querySelector("#videoConcierto");
+      document.querySelector("#marcadorConcierto").addEventListener("targetFound", () => {
+        document.body.addEventListener("click", () => {
+          videoConcierto.play();
+        }, { once: true });
+      });
+
+      // Reproducir audio automáticamente al detectar el marcador
+      const audio = document.querySelector("#audioRecuerdo");
+      document.querySelector("#marcadorAudio").addEventListener("targetFound", () => {
+        audio.play();
+      });
+      document.querySelector("#marcadorAudio").addEventListener("targetLost", () => {
+        audio.pause();
+        audio.currentTime = 0;
       });
     </script>
   </body>
