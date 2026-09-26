@@ -20,6 +20,8 @@
         <video id="videoMar" src="imagenes/mar.mp4" playsinline></video>
         <video id="videoConcierto" src="imagenes/concierto.mp4" playsinline></video>
         <audio id="audioRecuerdo" src="imagenes/audio.mp3" preload="auto"></audio>
+        <!-- Ícono de play -->
+        <img id="iconPlay" src="imagenes/play_icon.png" />
       </a-assets>
 
       <!-- Cámara -->
@@ -30,14 +32,16 @@
         <a-image src="#fotoVaca" position="0 0 0" scale="1 1 1"></a-image>
       </a-entity>
 
-      <!-- Segundo marcador: video mar en horizontal -->
+      <!-- Segundo marcador: video mar -->
       <a-entity mindar-image-target="targetIndex: 1" id="marcadorMar">
         <a-video src="#videoMar" position="0 0 0" width="1.6" height="0.9"></a-video>
+        <a-image class="overlay" src="#iconPlay" position="0 0 0.01" width="0.3" height="0.3" visible="true"></a-image>
       </a-entity>
 
-      <!-- Tercer marcador: video concierto en horizontal -->
+      <!-- Tercer marcador: video concierto -->
       <a-entity mindar-image-target="targetIndex: 2" id="marcadorConcierto">
         <a-video src="#videoConcierto" position="0 0 0" width="1.6" height="0.9"></a-video>
+        <a-image class="overlay" src="#iconPlay" position="0 0 0.01" width="0.3" height="0.3" visible="true"></a-image>
       </a-entity>
 
       <!-- Cuarto marcador: audio -->
@@ -45,28 +49,38 @@
     </a-scene>
 
     <script>
-      // Reproducir video "mar" con interacción
-      const videoMar = document.querySelector("#videoMar");
-      document.querySelector("#marcadorMar").addEventListener("targetFound", () => {
-        document.body.addEventListener("click", () => {
-          videoMar.play();
-        }, { once: true });
-      });
+      // Función genérica para manejar videos con overlay
+      function setupVideo(marcadorId, videoId) {
+        const marcador = document.querySelector(marcadorId);
+        const video = document.querySelector(videoId);
+        const overlay = marcador.querySelector(".overlay");
 
-      // Reproducir video "concierto" con interacción
-      const videoConcierto = document.querySelector("#videoConcierto");
-      document.querySelector("#marcadorConcierto").addEventListener("targetFound", () => {
-        document.body.addEventListener("click", () => {
-          videoConcierto.play();
-        }, { once: true });
-      });
+        marcador.addEventListener("targetFound", () => {
+          overlay.setAttribute("visible", true);
+          document.body.addEventListener("click", () => {
+            video.play();
+            overlay.setAttribute("visible", false);
+          }, { once: true });
+        });
 
-      // Reproducir audio automáticamente al detectar el marcador
+        marcador.addEventListener("targetLost", () => {
+          video.pause();
+          video.currentTime = 0;
+          overlay.setAttribute("visible", true);
+        });
+      }
+
+      // Configurar todos los videos
+      setupVideo("#marcadorMar", "#videoMar");
+      setupVideo("#marcadorConcierto", "#videoConcierto");
+
+      // Audio
       const audio = document.querySelector("#audioRecuerdo");
-      document.querySelector("#marcadorAudio").addEventListener("targetFound", () => {
+      const marcadorAudio = document.querySelector("#marcadorAudio");
+      marcadorAudio.addEventListener("targetFound", () => {
         audio.play();
       });
-      document.querySelector("#marcadorAudio").addEventListener("targetLost", () => {
+      marcadorAudio.addEventListener("targetLost", () => {
         audio.pause();
         audio.currentTime = 0;
       });
