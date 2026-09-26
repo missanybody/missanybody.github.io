@@ -49,6 +49,17 @@
     </a-scene>
 
     <script>
+      // Seleccionamos todos los videos automáticamente
+      const videos = document.querySelectorAll("video");
+
+      // Función para pausar todos los videos
+      function pauseAllVideos() {
+        videos.forEach(v => {
+          v.pause();
+          v.currentTime = 0;
+        });
+      }
+
       // Función genérica para manejar videos con overlay
       function setupVideo(marcadorId, videoId) {
         const marcador = document.querySelector(marcadorId);
@@ -58,7 +69,8 @@
         marcador.addEventListener("targetFound", () => {
           overlay.setAttribute("visible", true);
           document.body.addEventListener("click", () => {
-            video.play();
+            pauseAllVideos();       // 🔑 Pausa todos los demás
+            video.play();           // Reproduce solo el actual
             overlay.setAttribute("visible", false);
           }, { once: true });
         });
